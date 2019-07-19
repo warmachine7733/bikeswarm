@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 
 const url = "mongodb://localhost:27017/bikespoint";
-const opts = { useNewUrlParser: true };
+const opts = { useNewUrlParser: true, useCreateIndex: true };
 console.log("url is", url);
 mongoose.connect(url, opts);
 

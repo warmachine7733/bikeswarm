@@ -17,6 +17,11 @@ const bikeSchema = new Schema({
     required: false,
     lowercase: true
   },
+  thumbnail: {
+    type: String,
+    required: false,
+    lowercase: true
+  },
   releaseDate: {
     type: Date,
     required: false
