@@ -13,9 +13,8 @@ const bikeSchema = new Schema({
     unique: true
   },
   pic: {
-    type: String,
-    required: false,
-    lowercase: true
+    type: [{ url: String }],
+    required: false
   },
   thumbnail: {
     type: String,

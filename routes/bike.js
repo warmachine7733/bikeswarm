@@ -4,6 +4,7 @@ const bikeController = require("../controllers/bike");
 const aws = require("aws-sdk");
 const multerS3 = require("multer-s3");
 const multer = require("multer");
+const sharp = require("sharp");
 
 //aws config file
 aws.config.update({
@@ -12,29 +13,41 @@ aws.config.update({
 });
 const s3 = new aws.S3();
 /**local storage */
-const storage = multer.diskStorage({
-  destination: "./public/fullsize",
-  filename(req, file, cb) {
-    cb(null, `${Date.now()}.${file.originalname.split(".")[1]}`)
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: "./public",
+//   filename(req, file, cb) {
+//     cb(null, `${new Date().getTime()}.${file.originalname.split(".")[0]}.jpg`);
+//   }
+// });
 
-const tempStorage = multer.diskStorage({
- 
-});
+// const tempStorage = multer.diskStorage({});
 
 /**s3 storage */
 
-// const storage = multerS3({
-//   s3,
-//   acl: "public-read-write",
-//   bucket: "mediabikeswarm",
-//   contentType: multerS3.AUTO_CONTENT_TYPE, //this is preventing from auto downloading
-//   key: function(req, file, cb) {
-//     console.log(file);
-//     cb(null, `${Date.now()}.${file.originalname.split(".")[1]}`); //use Date.now() for unique file keys
-//   }
-// });
+const storage = multerS3({
+  s3,
+  acl: "public-read-write",
+  bucket: "mediabikeswarm",
+  contentType: multerS3.AUTO_CONTENT_TYPE, //this is preventing from auto downloading
+  // key: async (req, file, cb) => {
+  //   cb(null, `${Date.now()}.jpg`); //use Date.now() for unique file keys
+  // },
+  shouldTransform: function(req, file, cb) {
+    cb(null, /^image/i.test(file.mimetype));
+  },
+  transforms: [
+    {
+      id: "original",
+      key: function(req, file, cb) {
+        cb(null, "image-original.jpg");
+      },
+      transform: function(req, file, cb) {
+        //Perform desired transformations
+        cb(null, sharp().resize(60, 60));
+      }
+    }
+  ]
+});
 
 const uploadImg = multer({ storage });
 
@@ -45,7 +58,7 @@ const {
 } = require("../helpers/routeHelpers");
 
 router.route("/addbike").post(
-  uploadImg.single("file"),
+  uploadImg.array("file", 2),
   // validateBody(schemas.bikeSchema),
   bikeController.addbike
 );
