@@ -17,6 +17,8 @@ require("dotenv").config();
 const app = express();
 app.use(helmet());
 
+//serving static files
+app.use(express.static("public"));
 //cors
 
 app.use(function(req, res, next) {

@@ -17,12 +17,12 @@ const bikeSchema = new Schema({
     required: false
   },
   thumbnail: {
-    type: String,
+    type: [{ url: String }],
     required: false,
-    lowercase: true
+    lowercase: false
   },
   releaseDate: {
-    type: Date,
+    type: String,
     required: false
   },
   engine: {
@@ -40,15 +40,15 @@ const bikeSchema = new Schema({
   brakes: {
     type: String,
     required: false,
-    enum: ["dual drum", "dual disc", "rear disc only", "front disc only"]
+    enum: ["dual drum", "dual disc", "rear disc", "front disc"]
   },
   tyreType: {
     type: String,
     required: false,
-    enum: ["tubeless", "tube"]
+    enum: ["tubeless", "tube", "rear tubeless", "rear tube"]
   },
   abs: {
-    type: Boolean,
+    type: String,
     required: false
   },
   millage: {
@@ -56,20 +56,20 @@ const bikeSchema = new Schema({
     required: false
   },
   passSwitch: {
-    type: Boolean,
+    type: String,
     required: false
   },
   console: {
     type: String,
     required: false,
-    enum: ["Digital", "Manual", "Hybrid"]
+    enum: ["digital", "manual", "hybrid"]
   },
   antiTheft: {
-    type: Boolean,
+    type: String,
     required: false
   },
   stepUpSeat: {
-    type: Boolean,
+    type: String,
     required: false
   },
   maxSpeed: {
@@ -89,15 +89,15 @@ const bikeSchema = new Schema({
     required: false
   },
   lowFuelIndicator: {
-    type: Boolean,
+    type: String,
     required: false
   },
   maintenanceIndicator: {
-    type: Boolean,
+    type: String,
     required: false
   },
   lowBatteryIndicator: {
-    type: Boolean,
+    type: String,
     required: false
   },
   price: {
