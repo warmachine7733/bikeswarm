@@ -33,6 +33,7 @@ app.use(function(req, res, next) {
 
 const home = require("./routes/home");
 const bike = require("./routes/bike");
+const company = require("./routes/company");
 
 //middlewares
 app.use(logger("dev"));
@@ -41,6 +42,7 @@ app.use(bodyParser.json());
 //using routes
 app.use("/home", home);
 app.use("/bike", bike);
+app.use("/company", company)
 
 //catch 404 error and forward to error handler function
 // app.use((req, res, next) => {

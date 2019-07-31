@@ -6,9 +6,14 @@ const bikeSchema = new Schema({
     required: false,
     default: 0
   },
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+    ref: "companies"
+  },
   name: {
     type: String,
-    required: true,
+    required: false,
     lowercase: true,
     unique: true
   },
